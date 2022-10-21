@@ -52,8 +52,11 @@ public class FileParseTest {
 
     @Test
     void csvTest() throws Exception {
-        try (InputStream is = cl.getResourceAsStream("qa.guru.csv")) {
-            CSVReader reader = new CSVReader(new InputStreamReader(is));
+        try (
+                InputStream is = cl.getResourceAsStream("qa.guru.csv");
+                CSVReader reader = new CSVReader(new InputStreamReader(is))
+        )
+        {
             List<String[]> content = reader.readAll();
             String[] row = content.get(1); //2 tabl
             assertThat(row[0]).isEqualTo("Bogdanova"); //1 row
