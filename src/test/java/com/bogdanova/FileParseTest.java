@@ -1,7 +1,10 @@
 package com.bogdanova;
 
+import com.bogdanova.modelForJson.Student;
 import com.codeborne.pdftest.PDF;
 import com.codeborne.xlstest.XLS;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.opencsv.CSVReader;
 import org.junit.jupiter.api.Test;
 
@@ -66,7 +69,30 @@ public class FileParseTest {
         while ((entry = zis.getNextEntry()) != null) {
             String entryName = entry.getName();
             assertThat(entry.getName()).isIn("Test1.docx");
+//сделать архив с тремя файлами и проверить каждый из них https://github.com/Max0490/qa_guru_15_files/blob/master/src/test/java/qa/homework/FileParseTestHomework.java
+        }
+    }
 
+    @Test
+    void jsonTest() throws Exception {
+        InputStream is = cl.getResourceAsStream("Student.json");
+        Gson gson = new Gson();
+        JsonObject jsonObject = gson.fromJson(new InputStreamReader(is), JsonObject.class);
+        assertThat(jsonObject.get("name").getAsString()).isEqualTo("Natalia");
+        assertThat(jsonObject.get("age").getAsInt()).isEqualTo(25);
+        assertThat(jsonObject.get("isGoodStudent").getAsBoolean()).isTrue();
+        assertThat(jsonObject.get("passport").getAsJsonObject().get("number").getAsInt()).isEqualTo(123456);
     }
+
+    @Test
+    void jsonTestWithModel() throws Exception {
+        InputStream is = cl.getResourceAsStream("Student.json");
+        Gson gson = new Gson();
+        Student student = gson.fromJson(new InputStreamReader(is), Student.class);
+        assertThat(student.name).isEqualTo("Natalia");
+        assertThat(student.age).isEqualTo(25);
+        assertThat(student.isGoodStudent).isTrue();
+        assertThat(student.passport.number).isEqualTo(123456);
     }
+
 }

@@ -1,0 +1,10 @@
+{
+  "name": "Natalia",
+  "age": 25,
+  "isGoodStudent": true,
+  "lesson": ["JUnit 5", "Files"],
+  "passport": {
+    "number": 123456,
+    "issueData": "12.12.2022"
+  }
+}
